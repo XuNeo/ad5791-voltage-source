@@ -1,0 +1,9 @@
+{
+    "editor.tabSize": 2,
+    "files.associations": {
+        "ad5791.h": "c",
+        "stm32f0xx.h": "c",
+        "stm32f0xx_rcc.h": "c",
+        "uart.h": "c"
+    },
+}

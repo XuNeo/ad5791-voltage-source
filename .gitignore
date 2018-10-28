@@ -1,0 +1,14 @@
+*.o
+*.map
+*.lst
+*.crf
+*.d
+*.o
+*.csv
+*.txt
+*.ini
+*.xxl
+*.nxu2
+DebugConfig/
+RTE/
+OUT/
