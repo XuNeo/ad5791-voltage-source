@@ -1,34 +1,4 @@
-/************xShell*******************************************************
-* used on stm32f103ze,compiler:arm_cc;not support IAR
-*
-* ver 0.1,2013-12-22,by 徐兴良 in xjtu,xi'an,shanxi,CHINA
-**************************************************************************
-* ver 0.2,2015-3-25,by 徐兴良 in xjtu,xi'an,shanxi,CHINA,
-*    made it more easier to use
-**************************************************************************
-* how to use it:
-* 1. set flag USE_XSHELL to 1,
-*	   you can simple turn it off by set it to 0
-* 2. add "--keep *.o(xShellTab)" to misc control in linker page(without "") 
-* 3. complete function xShell_printf(const char*str,...),
-*    if you dont want any output, just write a empty function
-*    you can use this to simply it
-*    #define xShell_print printf
-*    this is much easier to realize the printf function
-* 4. register your function use the macro xShell_FUN_REG(name, desc)
-* 5. register your variable use the macro xShell_VAR_REG(name, desc)
-*    the variable can be list to the terminal
-* 6. when you received a character, execute 
-*    xShell_InputChar(xShell_st *xShell,char c);
-*    fistly, you should first define the struct (xShell),this is
-*    the workspace of xshell, pass its pointer to this function, 
-*    parameter 'c' is the charater you received
-* 7. enjoy it.
-*
-****************************************************************************/
-
-
-#include <string.h>
+#include "string.h"
 #include "xShell.H"
 #include "xprintf.h"
 
@@ -216,7 +186,7 @@ static unsigned int xShell_Str2Num(char*Str,unsigned long *Res)
 	while(1)
 	{
 		if((*p<='9'&&*p>='0')||(*p<='f'&&*p>='a')||(*p=='x'&&Num==1))
-		{//字母开头或' 'x开头的则认为16进制，统计合法的字符个数
+		{//
 			if(*p>='a')HexDec=16;	
 			Num++;					
 		}else if(*p=='\0')break;	
@@ -227,7 +197,7 @@ static unsigned int xShell_Str2Num(char*Str,unsigned long *Res)
 	if(HexDec==16)		
 	{
 		if(Num<3)return 2;		
-		if(*p=='0' && (*(p+1)=='x'))//剔除没有加0x前缀的16进制数
+		if(*p=='0' && (*(p+1)=='x'))//
 		{
 			p+=2;	
 			Num-=2;
