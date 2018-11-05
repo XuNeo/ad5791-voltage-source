@@ -42,8 +42,9 @@ SECTIONS
         *(.text*)
         KEEP(*(.init))
         KEEP(*(.fini))
+		__start_xShellTab = .;
         KEEP(*.o(xShellTab))
-
+		__end_xShellTab = .;
         /* .ctors */
         *crtbegin.o(.ctors)
         *crtbegin?.o(.ctors)

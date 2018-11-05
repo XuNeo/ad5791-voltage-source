@@ -12,14 +12,20 @@ void xShell_printf(const char*str,...){};
 	
 #if USE_XSHELL
 
-extern int xShellTab$$Base;	
-extern int xShellTab$$Limit;
+//extern int xShellTab$$Base;	
+//extern int xShellTab$$Limit;
 
 static unsigned long xShell_Parameter[MAX_PARAMETER];
 
+#ifdef __CC_ARM
 #define _xShell_Record_Base  (xShell_Recorde_st *)&xShellTab$$Base
 #define _xShell_Record_Limit (xShell_Recorde_st *)&xShellTab$$Limit
-
+#elif defined(__GNUC__)
+extern const int __start_xShellTab;
+extern const int __end_xShellTab;
+#define _xShell_Record_Base  (xShell_Recorde_st *)__start_xShellTab
+#define _xShell_Record_Limit (xShell_Recorde_st *)__end_xShellTab
+#endif
 static xShell_Recorde_st* xShell_SearchFunc(char*pFuncName)
 {
 	xShell_Recorde_st *pRecord = _xShell_Record_Base;
