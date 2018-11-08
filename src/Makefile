@@ -28,17 +28,21 @@ LDSCRIPT    := ./STM32F030F4.ld
 # 定义编译工具
 CC          = arm-none-eabi-gcc
 AS          = arm-none-eabi-as
-LD          = arm-none-eabi-ld
+LD          = arm-none-eabi-gcc
 AR          = arm-none-eabi-ar
 OBJCP       = arm-none-eabi-objcopy
 
 # 定义编译标志
 CCFLAGS     += -Wall -mcpu=cortex-m0 -mthumb -g -mfloat-abi=soft '-std=gnu99'
-CCFLAGS		+= -Xlinker -Map=output.map 
 # -march=armv7-m
 ASFLAGS     += -Wall -mcpu=cortex-m0 -mthumb
-LDFLAGS     += -T $(LDSCRIPT) -L'C:\Program Files (x86)\GNU Tools Arm Embedded\7 2018-q2-update\lib\gcc\arm-none-eabi\7.3.1' -L'C:\Program Files (x86)\GNU Tools Arm Embedded\7 2018-q2-update\arm-none-eabi\lib' -lgcc -lc -lnosys
-LDFLAGS 	+= -Map=output.map 
+
+#LDLIBS 			+= -L'/home/neo/tools/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1'
+#LDLIBS			+= -L'/home/neo/tools/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/thumb'
+#LDLIBS			+= -L'C:\Program Files (x86)\GNU Tools Arm Embedded\7 2018-q2-update\lib\gcc\arm-none-eabi\7.3.1' -L'C:\Program Files (x86)\GNU Tools Arm Embedded\7 2018-q2-update\arm-none-eabi\lib' 
+LDFLAGS     += -T $(LDSCRIPT) -lgcc -lc -lnosys
+LDFLAGS 		+= -Xlinker -Map=output.map 
+
 #-A armv7-m
 #LDFLAGS     += -L /Users/ch-yanghl/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/5.4.1
 #LDFLAGS     += -L /Users/ch-yanghl/gcc-arm-none-eabi/arm-none-eabi/lib/thumb

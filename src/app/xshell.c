@@ -1,5 +1,5 @@
 #include "string.h"
-#include "xShell.H"
+#include "xshell.h"
 #include "xprintf.h"
 
 #if ENABLE_XSHELL_PRINTF
