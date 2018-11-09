@@ -8,7 +8,7 @@ TARGET_ELF              := $(TARGET).elf
 TARGET_BIN              := $(TARGET).bin
 TARGET_HEX              := $(TARGET).hex
 OBJCPFLAGS_ELF_TO_BIN    = -Obinary
-OBJCPFLAGS_ELF_TO_HEX    = -Oihex
+OBJCPFLAGS_ELF_TO_HEX    = -O ihex
 OBJCPFLAGS_BIN_TO_HEX    = -Ibinary -Oihex
 VPATH = ..
 # 定义路径
@@ -33,14 +33,15 @@ AR          = arm-none-eabi-ar
 OBJCP       = arm-none-eabi-objcopy
 
 # 定义编译标志
-CCFLAGS     += -Wall -mcpu=cortex-m0 -mthumb -g -mfloat-abi=soft '-std=gnu99'
+CCFLAGS     += -Wall -mcpu=cortex-m0 -mthumb -g -mfloat-abi=soft '-std=gnu99' -Os
 # -march=armv7-m
 ASFLAGS     += -Wall -mcpu=cortex-m0 -mthumb
 
 #LDLIBS 			+= -L'/home/neo/tools/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1'
 #LDLIBS			+= -L'/home/neo/tools/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/thumb'
 #LDLIBS			+= -L'C:\Program Files (x86)\GNU Tools Arm Embedded\7 2018-q2-update\lib\gcc\arm-none-eabi\7.3.1' -L'C:\Program Files (x86)\GNU Tools Arm Embedded\7 2018-q2-update\arm-none-eabi\lib' 
-LDFLAGS     += -T $(LDSCRIPT) -lgcc -lc -lnosys
+LDFLAGS     += -T $(LDSCRIPT) -lgcc -lc -lnosys  -Os 
+#-Wl,--gc-sections
 LDFLAGS 		+= -Xlinker -Map=output.map 
 
 #-A armv7-m
