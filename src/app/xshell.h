@@ -1,9 +1,9 @@
 /************xShell*******************************************************
 * used on stm32f103ze,compiler:arm_cc;not support IAR
 *
-* ver 0.1,2013-12-22,by ÐìÐËÁ¼ in xjtu,xi'an,shanxi,CHINA
+* ver 0.1,2013-12-22,by ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ in xjtu,xi'an,shanxi,CHINA
 **************************************************************************
-* ver 0.2,2015-3-25,by ÐìÐËÁ¼ in xjtu,xi'an,shanxi,CHINA,
+* ver 0.2,2015-3-25,by ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ in xjtu,xi'an,shanxi,CHINA,
 *    made it more easier to use
 **************************************************************************
 * how to use it:
@@ -94,7 +94,7 @@ typedef unsigned long (*xShell_Func)();
 #define xShell_FUN_REG(name, desc)					                                \
 static const   char  xShell_fun_##name##_name[]  = #name;				            \
 static const   char  xShell_fun_##name##_desc[]  = #desc;						    \
-xShell_Recorde_st qsh_fun_##name##_record  __attribute__((section("xShellTab"))) =  \
+xShell_Recorde_st qsh_fun_##name##_record  __attribute__((section(".xShellTab"))) =  \
 {							                                                    \
 	xShell_fun_##name##_name,	                                                    \
 	xShell_fun_##name##_desc,	                                                    \
@@ -105,7 +105,7 @@ xShell_Recorde_st qsh_fun_##name##_record  __attribute__((section("xShellTab")))
 #define xShell_VAR_REG(name, desc)					                   \
 static const   char  xShell_var_##name##_name[] = #name;				           \
 static const   char  xShell_var_##name##_desc[] = #desc;				           \
-xShell_Recorde_st xShell_var_##name##_record  __attribute__((section("xShellTab"))) = \
+xShell_Recorde_st xShell_var_##name##_record  __attribute__((section(".xShellTab"))) = \
 {							                                                   \
 	xShell_var_##name##_name,	                                                   \
 	xShell_var_##name##_desc,	                                                   \

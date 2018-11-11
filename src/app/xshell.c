@@ -1,4 +1,5 @@
 #include "string.h"
+#include "stdint.h"
 #include "xshell.h"
 #include "xprintf.h"
 
@@ -21,10 +22,10 @@ static unsigned long xShell_Parameter[MAX_PARAMETER];
 #define _xShell_Record_Base  (xShell_Recorde_st *)&xShellTab$$Base
 #define _xShell_Record_Limit (xShell_Recorde_st *)&xShellTab$$Limit
 #elif defined(__GNUC__)
-extern const int __start_xShellTab;
-extern const int __end_xShellTab;
-#define _xShell_Record_Base  (xShell_Recorde_st *)__start_xShellTab
-#define _xShell_Record_Limit (xShell_Recorde_st *)__end_xShellTab
+extern const uint32_t __start_xShellTab;
+extern const uint32_t __end_xShellTab;
+#define _xShell_Record_Base  (xShell_Recorde_st *)&__start_xShellTab
+#define _xShell_Record_Limit (xShell_Recorde_st *)&__end_xShellTab
 #endif
 static xShell_Recorde_st* xShell_SearchFunc(char*pFuncName)
 {
