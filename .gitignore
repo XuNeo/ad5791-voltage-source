@@ -12,3 +12,7 @@
 DebugConfig/
 RTE/
 OUT/
+*.hex
+*.bin
+*.elf
+*.list

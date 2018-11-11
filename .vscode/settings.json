@@ -4,6 +4,8 @@
         "ad5791.h": "c",
         "stm32f0xx.h": "c",
         "stm32f0xx_rcc.h": "c",
-        "uart.h": "c"
+        "uart.h": "c",
+        "xshell.h": "c",
+        "xprintf.h": "c"
     },
 }

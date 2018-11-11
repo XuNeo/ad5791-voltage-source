@@ -1,5 +1,5 @@
 #STM32 makefile template
-PROJECT			= ad5791ref_stm32f030
+PROJECT			= ad5791ref
 
 CPU_FLAG    = -mthumb -mcpu=cortex-m0 -march=armv6-m -mfloat-abi=soft
 LDSCRIPT    := ./STM32F030F4.ld
@@ -10,15 +10,6 @@ SOURCE      += $(wildcard ./app/*.c)
 SOURCE      += $(wildcard ../stm32f0xxlib/STM32F0xx_StdPeriph_Driver/src/*.c)
 
 SOURCE_ASM  := ../src/startup_stm32f030.s
-
-TARGET                  := $(PROJECT)
-TARGET_ELF              := $(TARGET).elf
-TARGET_BIN              := $(TARGET).bin
-TARGET_HEX              := $(TARGET).hex
-OBJCPFLAGS_ELF_TO_BIN    = -Obinary
-OBJCPFLAGS_ELF_TO_HEX    = -O ihex
-OBJCPFLAGS_BIN_TO_HEX    = -Ibinary -Oihex
-OBJCPFLAGS_HEX_TO_BIN    = -Iihex -Obinary
 
 INC_DIR     := -I./
 INC_DIR     += -I../src
@@ -39,7 +30,7 @@ OBJDUMP			= arm-none-eabi-objdump
 CCFLAGS			:= -D STM32F030 -D USE_STDPERIPH_DRIVER
 CCFLAGS     += $(CPU_FLAG) -Wall -g '-std=gnu99' -O2 -fno-common 
 CCFLAGS     += $(INC_DIR)
-ASFLAGS     += $(CPU_FLAG) -Wall
+ASFLAGS     += $(CPU_FLAG) #-Wall
 
 LDFLAGS     := -T $(LDSCRIPT) -nostartfiles -Wl,--gc-sections
 LDFLAGS 		+= $(CPU_FLAG) -Xlinker -Map=$(PROJECT).map
@@ -50,19 +41,19 @@ ASM_OBJS    := $(SOURCE_ASM:%.s=%.o)
 COMPILE     = $(CC) $(CCFLAGS) -c $< -o $@ 
 ASSEMBLE    = $(AS) $(ASFLAGS) -c $< -o $@ 
 LINK        = $(LD) $+ $(LDFLAGS) $(LDLIBS) -o $@ 
-ELF_TO_BIN  = $(OBJCP) $(OBJCPFLAGS_ELF_TO_BIN) $< $@
-ELF_TO_HEX  = $(OBJCP) $(OBJCPFLAGS_ELF_TO_HEX) $< $@
 
 .PHONY: all clean printf
 
-all: $(TARGET_ELF)
+all: $(PROJECT).bin
 	@echo "build done"
 
-$(TARGET_ELF): $(C_OBJS) $(ASM_OBJS)
+$(PROJECT).bin: $(PROJECT).elf
+	$(OBJDUMP) -S $(PROJECT).elf > $(PROJECT).list
+	$(OBJCP) -Oihex $(PROJECT).elf $(PROJECT).hex
+	$(OBJCP) -Obinary $(PROJECT).elf $(PROJECT).bin
+
+$(PROJECT).elf: $(C_OBJS) $(ASM_OBJS)
 	$(LINK)
-	$(ELF_TO_HEX)
-	$(ELF_TO_BIN)
-	$(OBJDUMP) -S $(TARGET_ELF) > $(PROJECT).list 
 
 $(C_OBJS):%.o:%.c
 	$(COMPILE)
@@ -71,10 +62,8 @@ $(ASM_OBJS):%.o:%.s
 	$(ASSEMBLE) 
 
 clean:
-	rm -f $(TARGET_HEX)
-	rm -f $(TARGET_BIN)
-	rm -f $(TARGET_ELF)
 	rm -f $(C_OBJS) $(ASM_OBJS)
+	rm -f $(PROJECT).list  $(PROJECT).map $(PROJECT).elf $(PROJECT).hex $(PROJECT).bin
 	@echo "clean done"
 
 flash: $(TARGET_BIN)

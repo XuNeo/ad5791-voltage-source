@@ -2,16 +2,12 @@
   "version": "0.2.0",
   "configurations": [
       {
-          "type": "cortex-debug",
-          "request": "launch",
-          "servertype": "jlink",
           "cwd": "${workspaceRoot}",
-          "executable": "${workspaceRoot}/src/ad5791ref_stm32f030.elf",
-          "name": "Debug (J-Link)",
-          "device": "STM32F103RB",
-          "interface": "swd",
-          "ipAddress": null,
-          "serialNumber": null,
+          "executable": "${workspaceRoot}/src/ad5791ref.elf",
+          "name": "Debug Microcontroller",
+          "request": "launch",
+          "type": "cortex-debug",
+          "servertype": "stutil"
       }
   ]
 }
