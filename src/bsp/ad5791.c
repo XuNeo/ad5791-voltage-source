@@ -48,14 +48,14 @@
  * used to track current dac code.
 */
 static uint32_t dac_code20b = 0;
-static float vref_volt = 10.0f; /* 10V by default. */
+static float vref_volt = 10.002838f; /* 10V by default. */
 /**
  * @brief A simple delay function used to meet AD5791 timing.
  * @return none.
 */
 static void ad5791_delay(void)
 {
-  uint32_t i = 10;
+  volatile uint32_t i = 100;
   while(i--);
 }
 /**
@@ -120,6 +120,8 @@ static void ad5791_sctrl(uint32_t ctrl_set)
 {
   ad5791_send24b(AD5791_CMD(AD5791REG_SCTRL, ctrl_set));
 }
+
+void ad5791_set_volt(float volt);
 /**
  * @brief Init AD5791 related GPIO peripheral etc.
  * @return none.
@@ -145,7 +147,8 @@ void ad5791_init(void)
   ad5791_ctrl(AD5791CTRL_A1_OFF|AD5791CTRL_CODE_BIN|AD5791CTRL_COMP10V|AD5791CTRL_OPGND_NORMAL|\
                 AD5791CTRL_OUT_NORMAL|AD5791CTRL_SDO_DIS);
   ad5791_set_clrcode(0);
-  ad5791_write_data(0x10000);
+  ad5791_write_data(0x80000);
+  ad5791_set_volt(10.0f);
 }
 
 /**

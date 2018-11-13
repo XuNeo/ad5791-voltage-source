@@ -67,7 +67,6 @@ clean:
 	@echo "clean done"
 
 flash: $(TARGET_BIN)
-	st-flash erase
 	st-flash write $(PROJECT).bin 0x8000000
 erase:
 	st-flash erase
