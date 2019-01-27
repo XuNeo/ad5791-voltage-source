@@ -26,7 +26,8 @@ static void disp_update(void){
   flag_update_disp = 0;
   switch (mainmenu){
     case 0:
-      if(menudepth == 0){ //display current voltage setting.
+      //if(menudepth == 0)
+      { //display current voltage setting.
         float volt;
         volt = voltref_get_value();
         snprintf(str, 8, "%.6f", volt);

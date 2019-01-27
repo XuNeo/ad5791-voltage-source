@@ -23,6 +23,7 @@ void voltref_init(void){
   fifo_init(&uartrx_fifo, fifobuff, 128);
   ush_init(&ush, line_buff, 128);
   ad5791_init();
+  curr_volt = ad5791_set_volt(curr_volt);
 }
 
 //return current voltage settings.
@@ -42,11 +43,15 @@ static int32_t ush_set_volt(uint32_t argc, uint8_t **argv){
     USH_Print("input string is not illegal\n");
   }
   else{
+    if(numtype == ush_num_int32)
+      volt = *(int32_t*)&volt;
+    else if(numtype == ush_num_uint32)
+      volt = *(uint32_t*)&volt;
     USH_Print("set output voltage to:%f\n", volt);
     real_volt = ad5791_set_volt(volt);
     USH_Print("Real output voltage is:%f\n", real_volt);
   }
-  curr_volt = volt;
+  curr_volt = real_volt;
   hmi_disp_update();
   return 0;
 }
@@ -58,7 +63,6 @@ USH_REGISTER(ush_set_volt, setvolt, Set the output voltage in V);
 */
 void voltref_loop(void){
   uint8_t ch;
-  curr_volt = ad5791_set_volt(curr_volt);
   while(fifo_read1B(&uartrx_fifo, &ch) == fifo_err_ok){
     ush_process_input(&ush, &ch, 1);
   }

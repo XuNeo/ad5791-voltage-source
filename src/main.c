@@ -5,6 +5,7 @@ void voltref_loop(void);
 
 int main(void)
 {
+  {int i=1000000;while(i--);}
 	voltref_init();
 	hmi_init();
 	while(1)

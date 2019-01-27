@@ -126,7 +126,7 @@ void displed_default(void){
   sframe_encode(uart_char, buff, 4);
   buff[0] = CMD_SETSCROLL_SPEED;
   buff[1] = 1;
-  buff[2] = 1;  //scroll speed to 1.
+  buff[2] = 5;  //scroll speed to 1.
   sframe_encode(uart_char, buff, 3);
   buff[0] = CMD_SETBLINK_SPEED;
   buff[2] = 7;  //blink speed to 4.
@@ -147,7 +147,6 @@ void displed_addfont(uint8_t ch, uint8_t font){
 }
 
 void displed_init(void){
-  {int i=1000000;while(i--);}
 	displed_default();
   displed_addfont('N', LEDSEGA|LEDSEGB|LEDSEGC|LEDSEGE|LEDSEGF);
 	displed_str("10.123456");
