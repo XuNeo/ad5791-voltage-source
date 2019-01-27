@@ -1,3 +1,29 @@
+/**
+ * @author Neo Xu (neo.xu1990@gmail.com)
+ * @license The MIT License (MIT)
+ * 
+ * Copyright (c) 2019 Neo Xu
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * @brief ad5791 driver.
+*/
 #include "ad5791.h"
 
 #define AD5791_SYNC_L() GPIOA->BRR = GPIO_Pin_4
@@ -53,8 +79,7 @@ static float vref_volt = 10.002838f; /* 10V by default. */
  * @brief A simple delay function used to meet AD5791 timing.
  * @return none.
 */
-static void ad5791_delay(void)
-{
+static void ad5791_delay(void){
   volatile uint32_t i = 100;
   while(i--);
 }
@@ -62,13 +87,11 @@ static void ad5791_delay(void)
  * @brief send out 24bits though serial port
  * @return none.
 */
-static void ad5791_send24b(uint32_t data)
-{
+static void ad5791_send24b(uint32_t data){
   uint8_t count = 0;
   uint32_t mask = 1<<23;  /* start from MSB */
   AD5791_SYNC_L();
-  for(;count<24;count++)
-  {
+  for(;count<24;count++){
     AD5791_SCLK_H();
     if(mask&data)
       AD5791_DIN_H();
@@ -88,8 +111,7 @@ static void ad5791_send24b(uint32_t data)
  * @brief Write 24bit data to AD5791
  * @return none.
 */
-static void ad5791_write_data(uint32_t data)
-{
+static void ad5791_write_data(uint32_t data){
   ad5791_send24b(AD5791_CMD(AD5791REG_WDATA, data));
   dac_code20b = data;
 }
@@ -98,8 +120,7 @@ static void ad5791_write_data(uint32_t data)
  * @brief ad5791 control registers setting.
  * @return none.
 */
-static void ad5791_ctrl(uint32_t ctrl_set)
-{
+static void ad5791_ctrl(uint32_t ctrl_set){
   ad5791_send24b(AD5791_CMD(AD5791REG_CTRL, ctrl_set));
 }
 
@@ -107,8 +128,7 @@ static void ad5791_ctrl(uint32_t ctrl_set)
  * @brief set AD5791 clear code, the dac output data when CLR command is valid.
  * @return none.
 */
-static void ad5791_set_clrcode(uint32_t data)
-{
+static void ad5791_set_clrcode(uint32_t data){
   ad5791_send24b(AD5791_CMD(AD5791REG_CLRCODE, data));
 }
 
@@ -116,19 +136,16 @@ static void ad5791_set_clrcode(uint32_t data)
  * @brief Software control of AD5791 like LDAC and RESET.
  * @return none.
 */
-static void ad5791_sctrl(uint32_t ctrl_set)
-{
+static void ad5791_sctrl(uint32_t ctrl_set){
   ad5791_send24b(AD5791_CMD(AD5791REG_SCTRL, ctrl_set));
 }
 
-void ad5791_set_volt(float volt);
 /**
  * @brief Init AD5791 related GPIO peripheral etc.
  * @return none.
  * SYNC-->PA4, SCLK-->PA5 DIN-->PA3
 */
-void ad5791_init(void)
-{
+void ad5791_init(void){
   GPIO_InitTypeDef gpio_init;
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
   gpio_init.GPIO_Mode = GPIO_Mode_OUT;
@@ -147,20 +164,21 @@ void ad5791_init(void)
   ad5791_ctrl(AD5791CTRL_A1_OFF|AD5791CTRL_CODE_BIN|AD5791CTRL_COMP10V|AD5791CTRL_OPGND_NORMAL|\
                 AD5791CTRL_OUT_NORMAL|AD5791CTRL_SDO_DIS);
   ad5791_set_clrcode(0);
-  ad5791_write_data(0x80000);
-  ad5791_set_volt(10.0f);
+  ad5791_write_data(0x00000);
 }
 
 /**
- * @brief set ad5791 output voltage. This will include calibration correction.
- * @return none.
+ * @brief set the volatage. unit is V
+ * @param volt: the desired voltage in V
+ * @return the real voltage in V.
 */
-void ad5791_set_volt(float volt)
-{
+float ad5791_set_volt(float volt){
   uint32_t code;
-  code = volt/vref_volt*0xfffff;
+  code = (uint32_t)(volt/vref_volt*0xfffff + 0.5f);
   if(code > 0xfffff) code = 0xfffff;
+  code &= 0xffffc;
   ad5791_write_data(code);
+  return code*vref_volt/0xfffff;
 }
 
 /**
@@ -184,14 +202,9 @@ void ad5791_cal(uint32_t volt)
   vref_volt = 0xfffff/vref_volt*10.0f;
 }
 
-#include "xshell.h"
-xShell_FUN_REG(ad5791_set_code,Set the AD5791 code directly);
-xShell_FUN_REG(ad5791_cal, mark that current output voltage is 10V.);
-
 void ad5791_volt_debug(uint32_t volt_mv)
 {
   float voltage = volt_mv;
   voltage /= 1000;  //volt
   ad5791_set_volt(voltage);
 }
-xShell_FUN_REG(ad5791_volt_debug,Set the AD5791 voltage in mV unit);

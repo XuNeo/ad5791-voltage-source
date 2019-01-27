@@ -7,6 +7,7 @@ LDSCRIPT    := ./STM32F030F4.ld
 SOURCE      := $(wildcard ./*.c)
 SOURCE      += $(wildcard ./bsp/*.c)
 SOURCE      += $(wildcard ./app/*.c)
+SOURCE      += $(wildcard ./printf/*.c)
 SOURCE      += $(wildcard ../stm32f0xxlib/STM32F0xx_StdPeriph_Driver/src/*.c)
 
 SOURCE_ASM  := ../src/startup_stm32f030.s
@@ -18,6 +19,7 @@ INC_DIR 		+= -I../stm32f0xxlib/CMSIS/Device/ST/STM32F0xx/Include
 INC_DIR 		+= -I../stm32f0xxlib/STM32F0xx_StdPeriph_Driver/inc
 INC_DIR 		+= -I./app
 INC_DIR 		+= -I./bsp
+INC_DIR 		+= -I./printf
 INC_DIR 		+= --include ./stm32f0xx_conf.h
 
 CC          = arm-none-eabi-gcc

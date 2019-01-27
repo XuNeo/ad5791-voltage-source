@@ -6,6 +6,19 @@
         "stm32f0xx_rcc.h": "c",
         "uart.h": "c",
         "xshell.h": "c",
-        "xprintf.h": "c"
+        "xprintf.h": "c",
+        "ush.h": "c",
+        "printf.h": "c",
+        "sstream": "c",
+        "system_error": "c",
+        "string.h": "c",
+        "*.tcc": "c",
+        "optional": "c",
+        "ratio": "c",
+        "type_traits": "c",
+        "functional": "c",
+        "displed.h": "c",
+        "menu.h": "c",
+        "hmi.h": "c"
     },
 }

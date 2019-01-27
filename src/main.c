@@ -1,19 +1,16 @@
 #include "stm32f0xx.h"
-#include "uart.h"
-#include "xprintf.h"
-#include "ad5791.h"
+#include "hmi.h"
+void voltref_init(void);
+void voltref_loop(void);
 
 int main(void)
-{ 
-	RCC_ClocksTypeDef RCC_Clocks;
-  uart_init();
-  xPrintf("Hello from STM32F030 xPrint.\n");
-	RCC_GetClocksFreq(&RCC_Clocks);
-	xPrintf("Clock Frequency:\nSysClk:%d\nHCLK:%d\nPCLK:%d\n", RCC_Clocks.SYSCLK_Frequency,\
-				RCC_Clocks.HCLK_Frequency, RCC_Clocks.PCLK_Frequency);
-  ad5791_init();
+{
+	voltref_init();
+	hmi_init();
 	while(1)
 	{
+		voltref_loop();
+		hmi_poll();
 	}
 }
 
