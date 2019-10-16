@@ -50,15 +50,15 @@ all: $(PROJECT).bin
 	@echo "build done"
 
 $(PROJECT).bin: $(PROJECT).elf
-	$(OBJDUMP) -S $(PROJECT).elf > $(PROJECT).list
+	@$(OBJDUMP) -S $(PROJECT).elf > $(PROJECT).list
 	$(OBJCP) -Oihex $(PROJECT).elf $(PROJECT).hex
 	$(OBJCP) -Obinary $(PROJECT).elf $(PROJECT).bin
 
 $(PROJECT).elf: $(C_OBJS) $(ASM_OBJS)
-	$(LINK)
+	@$(LINK)
 
 $(C_OBJS):%.o:%.c
-	$(COMPILE)
+	@$(COMPILE)
 
 $(ASM_OBJS):%.o:%.s
 	$(ASSEMBLE) 
@@ -69,6 +69,9 @@ clean:
 	@echo "clean done"
 
 flash: $(TARGET_BIN)
-	st-flash write $(PROJECT).bin 0x8000000
+# st-flash write $(PROJECT).bin 0x8000000
+	@JLink.exe -device stm32f030c6 -if SWD -speed 4000 -CommanderScript .\jlink-script.jlink 
+	@echo "bin file downloaded"
 erase:
-	st-flash erase
+#st-flash erase
+	@JLink.exe -device stm32f030c6 -if SWD -speed 4000 -CommanderScript .\jlink-script-erase.jlink
