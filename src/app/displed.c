@@ -45,12 +45,10 @@ void displed_setcontr(uint8_t contr){
 //highlight the seledted led. led: 0 to 3
 void displed_highlight(uint8_t led){
   uint8_t buff[8];
-  uint8_t contr;
   if(led>3) return;
   buff[0] = CMD_SETCONTRASTA;
   buff[1] = 2;
   buff[2] = 0;
-  buff[3] = contr;
   usart_for_led();
   for(int8_t i=0;i<4;i++){
     buff[2] = 1<<i;
@@ -92,7 +90,7 @@ static int32_t ush_disp_set_contrast(uint32_t argc, char **argv){
   uint32_t contr_value;
   ush_num_def numtype;
   if(argc < 2) return 0;
-  if(ush_str2num((uint8_t *)argv[1], 1, &numtype, &contr_value) != ush_error_ok)
+  if(ush_str2num(argv[1], 1, &numtype, &contr_value) != ush_error_ok)
     return 0;
   displed_setcontr(contr_value);
   return 0;
@@ -149,6 +147,9 @@ void displed_addfont(uint8_t ch, uint8_t font){
 void displed_init(void){
 	displed_default();
   displed_addfont('N', LEDSEGA|LEDSEGB|LEDSEGC|LEDSEGE|LEDSEGF);
+  displed_addfont('S', LEDSEGA||LEDSEGC|LEDSEGD|LEDSEGF|LEDSEGG);
+  displed_addfont('v', LEDSEGC|LEDSEGD|LEDSEGE);
+  displed_addfont('U', LEDSEGA|LEDSEGB|LEDSEGC|LEDSEGD|LEDSEGE);
 	displed_str("10.123456");
 }
 USH_REGISTER(displed_init, ledinit, re-init the led);

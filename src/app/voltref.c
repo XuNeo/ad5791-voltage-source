@@ -18,7 +18,7 @@ static void _uart_rx_callback(uint8_t ch){
 */
 void voltref_init(void){
 	static uint8_t fifobuff[128];
-  static uint8_t line_buff[128];
+  static char line_buff[128];
 	uart_init(115200, _uart_rx_callback);
   fifo_init(&uartrx_fifo, fifobuff, 128);
   ush_init(&ush, line_buff, 128);
@@ -33,7 +33,7 @@ float voltref_get_value(void){
 /**
  * @brief set the volatage.
 */
-static int32_t ush_set_volt(uint32_t argc, uint8_t **argv){
+static int32_t ush_set_volt(uint32_t argc, char **argv){
   float volt;
   float real_volt;
   ush_num_def numtype;
@@ -64,6 +64,6 @@ USH_REGISTER(ush_set_volt, setvolt, Set the output voltage in V);
 void voltref_loop(void){
   uint8_t ch;
   while(fifo_read1B(&uartrx_fifo, &ch) == fifo_err_ok){
-    ush_process_input(&ush, &ch, 1);
+    ush_process_input(&ush, (char*)&ch, 1);
   }
 }

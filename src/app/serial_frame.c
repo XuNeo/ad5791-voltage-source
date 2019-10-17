@@ -68,6 +68,8 @@ int32_t sframe_decode(sframe_def *psframe, uint8_t *pinput, uint32_t len){
           psframe->windex = 0;
         }
         break;
+      default:
+      break;
     }
     pinput ++;
   }

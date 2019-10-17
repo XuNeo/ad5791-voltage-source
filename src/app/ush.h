@@ -48,12 +48,12 @@ typedef enum{
   ush_error_strillegal = -7,/**<illegal input string for number  */
 }ush_error_def;
 
-typedef int32_t (*ush_func_def)(int32_t argc, uint8_t ** argv);
+typedef int32_t (*ush_func_def)(int32_t argc, char ** argv);
 
 typedef struct _ush_cmd{
   void *func;               /**< the function to deal with this command. */
-  const uint8_t *cmd;          /**< the command string that calls this function. */
-  const uint8_t *desc;         /**< description of this command. */
+  const char *cmd;          /**< the command string that calls this function. */
+  const char *desc;         /**< description of this command. */
 }ush_cmd_def;
 
 typedef struct _ush_list{
@@ -69,8 +69,8 @@ typedef struct _ush_list{
 const ush_cmd_def uniquename(func)  __attribute__((section("ushtable"))) = \
 { \
 	(void *)&func, \
-  (uint8_t*)#name,	\
-	(uint8_t*)#desc, \
+  (char*)#name,	\
+	(char*)#desc, \
 }
 
 typedef enum{
@@ -86,17 +86,17 @@ typedef enum{
 }ush_num_def;
 
 typedef struct _ush{
-  uint8_t *linebuff;  /**< input line buffer*/
+  char *linebuff;  /**< input line buffer*/
   uint32_t buffsz;    /**< line buffer size. */
   uint32_t w_pos;     /**< current position in line buffer to write. */
   uint32_t argc;      /**< the arguements found in linebuffer till now.*/
-  uint8_t  *argv[USH_MAX_ARG];  /**< pointers point to the arugments. */
+  char  *argv[USH_MAX_ARG];  /**< pointers point to the arugments. */
   ush_state_def state;
 }ush_def;
 
-ush_error_def ush_init(ush_def *ush, uint8_t *pbuff, uint32_t len);
+ush_error_def ush_init(ush_def *ush, char *pbuff, uint32_t len);
 ush_error_def ush_cmdlist_append(ush_list_def *pitem);
-ush_error_def ush_process_input(ush_def *ush, const uint8_t *pbuff, uint32_t len);
-ush_error_def ush_str2num(const uint8_t *pstr, uint32_t len, ush_num_def* num_type, void *value);
+ush_error_def ush_process_input(ush_def *ush, const char *pbuff, uint32_t len);
+ush_error_def ush_str2num(const char *pstr, uint32_t len, ush_num_def* num_type, void *value);
 
 #endif
