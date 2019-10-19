@@ -1,6 +1,7 @@
 #ifndef _FIFO_H_
 #define _FIFO_H_
 #include "stdint.h"
+#include "stm32f0xx.h"
 
 #define FIFO_DIS_INT() NVIC_DisableIRQ(USART1_IRQn)//disableInterrupts() //disable interrupt
 #define FIFO_EN_INT()  NVIC_EnableIRQ(USART1_IRQn)//enableInterrupts() //enable interrupt again.

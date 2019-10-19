@@ -30,7 +30,12 @@
  * The commands that defined by macro USH_REGISTER are stored in 'ushsection' section.
  * The commands that registered by function ush_cmd_append() is listed to list ush_list;
  * */
-#ifdef __CC_ARM
+#if defined(SEGGER_STUDIO)
+extern int ushtable$$Base;	
+extern int ushtable$$Limit;
+#define _USH_TABLE_START      (ush_cmd_def *)&ushtable$$Base
+#define _USH_TABLE_END        (ush_cmd_def *)&ushtable$$Limit
+#elif defined(__CC_ARM)
 extern int ushtable$$Base;	
 extern int ushtable$$Limit;
 #define _USH_TABLE_START      (ush_cmd_def *)&ushtable$$Base
