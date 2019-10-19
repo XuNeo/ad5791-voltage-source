@@ -13,22 +13,20 @@
 
 #define ULOG_OUTPUT_LVL LOG_LVL_DBG
 
-#define ULOG_OUTPUT_TIME
-#define ULOG_TIME_USING_TIMESTAMP
-//#define ULOG_USING_ASYNC_OUTPUT  this mode is removed. This port targets for no-os usage. Thus it makes no sense to port async mode.
-//#define ULOG_USE_USH //use micro shell: USH
-//ULOG_OUTPUT_TIME
-//RT_USING_SOFT_RTC
-
+#define ULOG_USING_USH //use micro shell: USH
 #define ULOG_USING_FILTER
-#define ULOG_OUTPUT_LEVEL
-#define ULOG_USING_ISR_LOG
-#define ULOG_OUTPUT_TAG
 #define ULOG_USING_COLOR
-#define ULOG_OUTPUT_FLOAT
+#define ULOG_USING_PRINTF //use custom printf module instead of stdio.h
+
+#define ULOG_OUTPUT_LEVEL
+#define ULOG_OUTPUT_TAG
+#define ULOG_OUTPUT_TIME
+
 #define ULOG_BACKEND_USING_CONSOLE
 
 #define RT_NAME_MAX					(8)
 
-#define ULOG_GET_SYSTICK()  0 //rt_tick_get()
+//#define ULOG_USING_ISR_LOG Not supported
+//#define ULOG_USING_SYSLOG not supported
+//#define ULOG_USING_ASYNC_OUTPUT  this mode is removed. This port targets for no-os usage. Thus it makes no sense to port async mode.
 #endif

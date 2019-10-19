@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\OUT\</OutputDirectory>
-          <OutputName>PowerV7</OutputName>
+          <OutputName>ad5791-ref</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>--preinclude ..\stm32f0xx_conf.h </MiscControls>
-              <Define>STM32F030,USE_STDPERIPH_DRIVER,M_PI=3.14159265358979f</Define>
+              <Define>STM32F030,USE_STDPERIPH_DRIVER,M_PI=3.14159265358979f,__CLK_TCK=100</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Include;..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\inc;..\..\src;..\..\src\app;..\..\src\bsp;..\printf;..\app\ulog;..\app\ulog\syslog</IncludePath>
+              <IncludePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Include;..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\inc;..\..\src;..\..\src\app;..\..\src\bsp;..\printf;..\app\ulog-noos</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -595,12 +595,12 @@
             <File>
               <FileName>ulog.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\ulog\ulog.c</FilePath>
+              <FilePath>..\app\ulog-noos\ulog.c</FilePath>
             </File>
             <File>
               <FileName>console_be.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\ulog\backend\console_be.c</FilePath>
+              <FilePath>..\app\ulog-noos\backend\console_be.c</FilePath>
             </File>
           </Files>
         </Group>

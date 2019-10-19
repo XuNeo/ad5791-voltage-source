@@ -2,7 +2,7 @@
 #include "hmi.h"
 #include "timer.h"
 
-#define LOG_TAG              "example"
+#define LOG_TAG              "main"
 #define LOG_LVL              LOG_LVL_DBG
 #include <ulog.h>
 

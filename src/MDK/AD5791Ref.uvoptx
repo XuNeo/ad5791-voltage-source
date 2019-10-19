@@ -120,9 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>燩鷙愞b
-燩鷙愞b
-</Name>
+          <Name>燩鷙</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -165,7 +163,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pstr</ItemText>
+          <ItemText>log_buf</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -211,8 +209,8 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>2</SubType>
-          <ItemText>0x8006000</ItemText>
+          <SubType>8</SubType>
+          <ItemText>0x20000438</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -779,7 +777,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\app\ulog\ulog.c</PathWithFileName>
+      <PathWithFileName>..\app\ulog-noos\ulog.c</PathWithFileName>
       <FilenameWithoutPath>ulog.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -791,7 +789,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\app\ulog\backend\console_be.c</PathWithFileName>
+      <PathWithFileName>..\app\ulog-noos\backend\console_be.c</PathWithFileName>
       <FilenameWithoutPath>console_be.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

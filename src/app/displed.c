@@ -3,6 +3,10 @@
 #include "uart.h"
 #include "ush.h"
 
+#define LOG_TAG              "led"
+#define LOG_LVL              LOG_LVL_DBG
+#include <ulog.h>
+
 #define CMD_SETBLINK        1       //start which led(s) to blink
 #define CMD_SETBLINK_SPEED  2       //set the blink speed
 #define CMD_SETCONTRASTA    3       //set the contrast level
@@ -151,5 +155,7 @@ void displed_init(void){
   displed_addfont('v', LEDSEGC|LEDSEGD|LEDSEGE);
   displed_addfont('U', LEDSEGA|LEDSEGB|LEDSEGC|LEDSEGD|LEDSEGE);
 	displed_str("10.123456");
+  LOG_I("STM8-LED initialized.");
+  //ulog_i("led", "STM8-LED initialized.");
 }
 USH_REGISTER(displed_init, ledinit, re-init the led);
