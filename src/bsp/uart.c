@@ -89,8 +89,6 @@ void _putchar(char data){
 
 void USART1_IRQHandler(void)
 {
-	volatile unsigned char c;
-	
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
 	{
 		if(uart_callback)

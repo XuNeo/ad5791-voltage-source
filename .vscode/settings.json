@@ -19,6 +19,8 @@
         "functional": "c",
         "displed.h": "c",
         "menu.h": "c",
-        "hmi.h": "c"
+        "hmi.h": "c",
+        "syslog.h": "c",
+        "ulog.h": "c"
     },
 }
