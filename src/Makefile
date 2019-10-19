@@ -34,11 +34,11 @@ OBJDUMP		= arm-none-eabi-objdump
 SIZE		= arm-none-eabi-size
 
 CCFLAGS		:= -D STM32F030 -D USE_STDPERIPH_DRIVER
-CCFLAGS     += $(CPU_FLAG) -Wall -g '-std=gnu99' -Os -fno-common -ffunction-sections
+CCFLAGS     += $(CPU_FLAG) -Wall -g -std=gnu99 -Os -fno-common -ffunction-sections
 CCFLAGS     += $(INC_DIR)
 ASFLAGS     += $(CPU_FLAG) #-Wall
 
-LDFLAGS     := -T $(LDSCRIPT) -nostartfiles -Wl,--gc-sections --specs=nosys.specs
+LDFLAGS     := -T $(LDSCRIPT) -nostartfiles -Wl,--gc-sections --specs=nano.specs --specs=nosys.specs
 LDFLAGS		+= $(CPU_FLAG) -Xlinker -Map=$(PROJECT).map
 
 C_OBJS      := $(SOURCE:%.c=%.o)
