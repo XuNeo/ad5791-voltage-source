@@ -188,7 +188,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -398,19 +398,9 @@
           <GroupName>APP</GroupName>
           <Files>
             <File>
-              <FileName>fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\fifo.c</FilePath>
-            </File>
-            <File>
               <FileName>serial_frame.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\serial_frame.c</FilePath>
-            </File>
-            <File>
-              <FileName>ush.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\ush.c</FilePath>
             </File>
             <File>
               <FileName>displed.c</FileName>
@@ -427,21 +417,11 @@
               <FileType>1</FileType>
               <FilePath>..\app\hmi.c</FilePath>
             </File>
-            <File>
-              <FileName>printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\printf\printf.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>LIB</GroupName>
           <Files>
-            <File>
-              <FileName>system_stm32f0xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Source\Templates\system_stm32f0xx.c</FilePath>
-            </File>
             <File>
               <FileName>startup_stm32f030.s</FileName>
               <FileType>2</FileType>
@@ -562,6 +542,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>system_stm32f0xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\system_stm32f0xx.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -592,6 +577,21 @@
         <Group>
           <GroupName>3rdparty</GroupName>
           <Files>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>ush.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\ush.c</FilePath>
+            </File>
+            <File>
+              <FileName>printf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\printf\printf.c</FilePath>
+            </File>
             <File>
               <FileName>ulog.c</FileName>
               <FileType>1</FileType>

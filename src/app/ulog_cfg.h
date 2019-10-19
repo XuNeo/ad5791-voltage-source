@@ -9,7 +9,7 @@
 #ifndef _ULOG_CFG_H_
 #define _ULOG_CFG_H_
 
-#define RT_USING_ULOG
+//#define RT_USING_ULOG
 
 #define ULOG_OUTPUT_LVL LOG_LVL_DBG
 

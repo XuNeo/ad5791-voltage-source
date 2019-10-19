@@ -14,20 +14,14 @@ int ulog_console_backend_init(void);
 int main(void)
 {
   {int i=1000000;while(i--);}
-	timer_init(10);	//10ms period timer
+#ifdef RT_USING_ULOG
   ulog_console_backend_init();
   ulog_init();
+#endif
+	timer_init(10);	//10ms period timer
 	voltref_init();
 	hmi_init();
-  uint32_t count = 0;
-  LOG_D("RT-Thread is an open source IoT operating system from China.", count);
-  LOG_I("RT-Thread is an open source IoT operating system from China.", count);
-  LOG_W("RT-Thread is an open source IoT operating system from China.", count);
-  LOG_E("RT-Thread is an open source IoT operating system from China.", count);
-  ulog_d("test", "RT-Thread is an open source IoT operating system from China.", count);
-  ulog_i("test", "RT-Thread is an open source IoT operating system from China.", count);
-  ulog_w("test", "RT-Thread is an open source IoT operating system from China.", count);
-  ulog_e("test", "RT-Thread is an open source IoT operating system from China.", count);
+  LOG_D("Loop starts here.");
 	while(1)
 	{
 		voltref_loop();

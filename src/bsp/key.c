@@ -117,6 +117,8 @@ void TIM14_IRQHandler(void)//10ms
 	{    
 		TIM14->SR = ~TIM_FLAG_Update;
     Flag_KeyCheck = 1;
+#ifdef RT_USING_ULOG
     ulog_timer_isr();
+#endif
 	}
 }

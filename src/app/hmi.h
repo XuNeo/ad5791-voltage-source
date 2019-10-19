@@ -4,6 +4,6 @@
 
 void hmi_init(void);
 void hmi_poll(void);
-void hmi_disp_update(void);
+void hmi_disp_update(float volt);
 
 #endif

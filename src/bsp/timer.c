@@ -2,6 +2,10 @@
 #include "timer.h"
 #include "stdbool.h"
 
+#define LOG_TAG              "timer"
+#define LOG_LVL              LOG_LVL_INFO
+#include <ulog.h>
+
 #define CORE_CLOCK_FREQ (64000000/64000)
 #define TIMER_LIST_MAX  10
 struct _timer_list{
@@ -23,6 +27,7 @@ void timer_init(uint32_t period_ms){
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
   TIM_TimeBaseStructure.TIM_Prescaler = 64000-1; //64MHz clock input. 1kHz clock.
   TIM_TimeBaseStructure.TIM_Period = timer_value-1;        //10ms interrupt period.
+  LOG_I("timer_load_value: %d", timer_value);
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_TimeBaseInit(TIM16, &TIM_TimeBaseStructure);
@@ -35,10 +40,13 @@ void timer_init(uint32_t period_ms){
   NVIC_Init(&nvic);
   TIM_Cmd(TIM16, ENABLE);
   time_per_tick = timer_value*1000/CORE_CLOCK_FREQ;
+  LOG_I("time_per_tick: %d", time_per_tick);
 }
 
 void timer_register(void (*call_back)(void), uint32_t period_ms){
   if(call_back == 0) return;
+  
+  LOG_I("Register timer: 0x%08x, period:%dms", call_back, period_ms);
   uint32_t tick = period_ms/time_per_tick;
   for(uint32_t i=0; i< list_len; i++){
     if(timer_list[i].enable == false ||
@@ -84,6 +92,7 @@ void TIM16_IRQHandler(void)//2ms
         timer_list[i].next_alarm_tick += timer_list[i].tick;
         timer_list[i].callback(); //call function
       }
+      LOG_D("TIM16 INT.");
     }
   }
 }

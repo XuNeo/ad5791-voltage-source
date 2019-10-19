@@ -185,9 +185,10 @@ float ad5791_set_volt(float volt){
  * @brief set ad5791 output code directly. This doesn't include calibration correction.
  * @return none.
 */
-void ad5791_set_code(uint32_t code)
+float ad5791_set_code(uint32_t code)
 {
   ad5791_write_data(code&0xfffff);
+  return code*vref_volt/0xfffff;
 }
 
 /**
