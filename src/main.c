@@ -29,6 +29,15 @@ int main(void)
 	}
 }
 
+#include "ush.h"
+/**
+ * @brief set the volatage.
+*/
+static int32_t sytem_reboot(uint32_t argc, char **argv){
+  NVIC_SystemReset();
+  return 0;
+}
+USH_REGISTER(sytem_reboot, reboot, reset system);
 
 void TIM1_BRK_UP_TRG_COM_IRQHandler(void)//2ms
 {//499.4Hz

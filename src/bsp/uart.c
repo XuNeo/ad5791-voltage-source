@@ -14,15 +14,13 @@ void uart_init(uint32_t baudrate, void(*pfunc)(uint8_t))
 	
 	GPIO_PinAFConfig(GPIOA,GPIO_PinSource9,GPIO_AF_1);
 	GPIO_PinAFConfig(GPIOA,GPIO_PinSource10,GPIO_AF_1);
-	GPIO_PinAFConfig(GPIOA,GPIO_PinSource2,GPIO_AF_1);
 
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//50MHz
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9|GPIO_Pin_10|GPIO_Pin_2;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9|GPIO_Pin_10;
 	GPIO_Init(GPIOA,&GPIO_InitStructure);
-  GPIOA->ODR |= GPIO_Pin_2|GPIO_Pin_9;
 	
 	//USART
 	USART_InitStructure.USART_BaudRate = baudrate;
@@ -35,41 +33,12 @@ void uart_init(uint32_t baudrate, void(*pfunc)(uint8_t))
 	USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);
 	
 	//USART_SWAPPinCmd(USART1,ENABLE);
-	
 	USART_Cmd(USART1,ENABLE);
 	//interrupt configure
 	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
 	NVIC_Init(&NVIC_InitStructure);//	USART_String("at\r\n");
-}
-
-void usart_for_led(void){
-	GPIO_InitTypeDef GPIO_InitStructure;
-  
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//50MHz
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-	GPIO_Init(GPIOA,&GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-	GPIO_Init(GPIOA,&GPIO_InitStructure);
-}
-
-void usart_for_ush(void){
-	GPIO_InitTypeDef GPIO_InitStructure;
-  
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//50MHz
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-	GPIO_Init(GPIOA,&GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-	GPIO_Init(GPIOA,&GPIO_InitStructure);
 }
 
 void uart_char(uint8_t data)

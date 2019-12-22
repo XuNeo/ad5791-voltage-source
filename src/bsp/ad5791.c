@@ -26,11 +26,11 @@
 */
 #include "ad5791.h"
 
-#define AD5791_SYNC_L() GPIOA->BRR = GPIO_Pin_4
-#define AD5791_SYNC_H() GPIOA->BSRR = GPIO_Pin_4
+#define AD5791_SYNC_L() GPIOA->BRR = GPIO_Pin_5
+#define AD5791_SYNC_H() GPIOA->BSRR = GPIO_Pin_5
 
-#define AD5791_SCLK_L() GPIOA->BRR = GPIO_Pin_5
-#define AD5791_SCLK_H() GPIOA->BSRR = GPIO_Pin_5
+#define AD5791_SCLK_L() GPIOA->BRR = GPIO_Pin_4
+#define AD5791_SCLK_H() GPIOA->BSRR = GPIO_Pin_4
 
 #define AD5791_DIN_L() GPIOA->BRR = GPIO_Pin_3
 #define AD5791_DIN_H() GPIOA->BSRR = GPIO_Pin_3
