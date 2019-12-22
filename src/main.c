@@ -1,13 +1,27 @@
 #include "stm32f0xx.h"
 #include "hmi.h"
+#include "timer.h"
+
+#define LOG_TAG              "main"
+#define LOG_LVL              LOG_LVL_DBG
+#include <ulog.h>
+
 void voltref_init(void);
 void voltref_loop(void);
+int ulog_init(void);
+int ulog_console_backend_init(void);
 
 int main(void)
 {
   {int i=1000000;while(i--);}
+#ifdef RT_USING_ULOG
+  ulog_console_backend_init();
+  ulog_init();
+#endif
+	timer_init(10);	//10ms period timer
 	voltref_init();
 	hmi_init();
+  LOG_D("Loop starts here.");
 	while(1)
 	{
 		voltref_loop();
@@ -15,19 +29,6 @@ int main(void)
 	}
 }
 
-void TIM3_IRQHandler(void)//2ms
-{//499.4Hz
-	static unsigned char count_100mS;
-	if(TIM3->SR & TIM_IT_Update)	
-	{    
-		TIM3->SR = ~TIM_FLAG_Update;  
-		count_100mS ++;
-		if(count_100mS == 250)
-		{
-			count_100mS = 0;
-		}
-	}
-}
 
 void TIM1_BRK_UP_TRG_COM_IRQHandler(void)//2ms
 {//499.4Hz

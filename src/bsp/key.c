@@ -109,11 +109,16 @@ uint8_t get_key(void){
   return key_value;
 }
 
+#include "ulog.h"
+
 void TIM14_IRQHandler(void)//10ms
 {
 	if(TIM14->SR & TIM_IT_Update)	
 	{    
 		TIM14->SR = ~TIM_FLAG_Update;
     Flag_KeyCheck = 1;
+#ifdef RT_USING_ULOG
+    ulog_timer_isr();
+#endif
 	}
 }

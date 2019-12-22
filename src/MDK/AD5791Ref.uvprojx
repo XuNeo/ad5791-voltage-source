@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\OUT\</OutputDirectory>
-          <OutputName>PowerV7</OutputName>
+          <OutputName>ad5791-ref</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -184,6 +184,7 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -335,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>--preinclude ..\stm32f0xx_conf.h </MiscControls>
-              <Define>STM32F030,USE_STDPERIPH_DRIVER,M_PI=3.14159265358979f</Define>
+              <Define>STM32F030,USE_STDPERIPH_DRIVER,M_PI=3.14159265358979f,__CLK_TCK=100</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Include;..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\inc;..\..\src;..\..\src\app;..\..\src\bsp;..\printf</IncludePath>
+              <IncludePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Include;..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\inc;..\..\src;..\..\src\app;..\..\src\bsp;..\printf;..\app\ulog-noos</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -397,24 +398,9 @@
           <GroupName>APP</GroupName>
           <Files>
             <File>
-              <FileName>printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\printf\printf.c</FilePath>
-            </File>
-            <File>
-              <FileName>fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\fifo.c</FilePath>
-            </File>
-            <File>
               <FileName>serial_frame.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\serial_frame.c</FilePath>
-            </File>
-            <File>
-              <FileName>ush.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\ush.c</FilePath>
             </File>
             <File>
               <FileName>displed.c</FileName>
@@ -436,11 +422,6 @@
         <Group>
           <GroupName>LIB</GroupName>
           <Files>
-            <File>
-              <FileName>system_stm32f0xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Source\Templates\system_stm32f0xx.c</FilePath>
-            </File>
             <File>
               <FileName>startup_stm32f030.s</FileName>
               <FileType>2</FileType>
@@ -561,6 +542,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>system_stm32f0xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\system_stm32f0xx.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -580,6 +566,41 @@
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>3rdparty</GroupName>
+          <Files>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>ush.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\ush.c</FilePath>
+            </File>
+            <File>
+              <FileName>printf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\printf\printf.c</FilePath>
+            </File>
+            <File>
+              <FileName>ulog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\ulog-noos\ulog.c</FilePath>
+            </File>
+            <File>
+              <FileName>console_be.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\ulog-noos\backend\console_be.c</FilePath>
             </File>
           </Files>
         </Group>

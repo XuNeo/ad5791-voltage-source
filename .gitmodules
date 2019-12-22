@@ -1,3 +1,6 @@
 [submodule "src/printf"]
 	path = src/printf
-	url = https://github.com/mpaland/printf
+	url = https://gitlab.com/XuNeo/printf.git
+[submodule "src/app/ulog-noos"]
+	path = src/app/ulog-noos
+	url = https://gitlab.com/XuNeo/ulog-noos.git

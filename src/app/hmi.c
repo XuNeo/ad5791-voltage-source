@@ -1,72 +1,64 @@
 #include "hmi.h"
 #include "key.h"
 #include "displed.h"
+#include "timer.h"
 #include "printf.h"
+#include "stdbool.h"
+
+#define LOG_TAG              "hmi"
+#define LOG_LVL              LOG_LVL_INFO
+#include <ulog.h>
 
 /**
  * Get input from key/encoder and control display and peripherals.
 */
-#define MAINMENU_0  0
-#define MAX_MAIN_MENU 2
-
 float voltref_get_value(void);
-static int32_t mainmenu, submenu, menudepth = 1;
-static uint8_t flag_update_disp;  //the flag means that display should be updated.
+float voltref_set_value(float volt);
+
+static bool flag_update_disp = true;  //the flag means that display should be updated.
+static int16_t cursor_pos = 0;
+static bool b_cursor_selected = false;
+static double volt_disp = 0;    //the voltage on screen
+static float volt_real = 0;     //the real voltage set to DAC
+
+void hmi_timer(void){
+  static uint16_t count_100ms = 0;
+  count_100ms ++;
+  if(count_100ms == 13){
+    count_100ms = 0;
+    LOG_D("swap volt display content\n");
+  }
+}
+
 void hmi_init(void){
-  mainmenu = 0;
-  submenu = 0;
   key_init();
 	displed_init();
+  timer_register(hmi_timer, 100);
 }
 
 static void disp_update(void){
   #define MAX_CONTR_INDEX 3
-  char str[8];
-  if(flag_update_disp == 0) return;
-  flag_update_disp = 0;
-  switch (mainmenu){
-    case 0:
-      //if(menudepth == 0)
-      { //display current voltage setting.
-        float volt;
-        volt = voltref_get_value();
-        snprintf(str, 8, "%.6f", volt);
-        displed_str(str);
-      }
-      break;
-    case 1:
-      if(menudepth == 0)
-        displed_str("CONt."); //contraset
-      else{
-        snprintf(str, 8, "C%03d", displed_getcontr());
-        displed_str(str);
-        if(menudepth == 1){
-          displed_set_blink(0); //disable all.
-          displed_highlight(3-submenu);
-        }
-        if(menudepth == 2){
-          displed_set_blink(1<<(3-submenu));
-        }
-      }
-      break;
-    case 2:
-      displed_str("HEL.O"); //contraset
-    default:
-      break;
+  char str[16];
+  if(flag_update_disp == false) return;
+  flag_update_disp = false;
+  char *pstr = str;
+  snprintf(str, 16, "%.6fv", b_cursor_selected?volt_disp:volt_real);
+  if(b_cursor_selected){
+    displed_set_blink(1<<(cursor_pos>3?cursor_pos-4:cursor_pos));
   }
+  else{
+    displed_set_blink(0); //no blink
+    displed_highlight(4); //no led is highlighted.
+    displed_highlight(cursor_pos>3?cursor_pos-4:cursor_pos);
+  }
+  if(cursor_pos>3)
+    pstr = str+5;
+  else
+    str[5] = '\0';
+  displed_str(pstr);
 }
 
-static inline void _mainmenu_update(int8_t delta){
-  if(delta)
-    flag_update_disp = 1;//if main menu changed, we always need to update screen.
-  mainmenu += delta;
-  if(mainmenu > MAX_MAIN_MENU)
-    mainmenu = MAX_MAIN_MENU;
-  if(mainmenu < 0)
-    mainmenu = 0;
-}
-
-static uint32_t ipow(uint32_t x, uint32_t y){
+uint32_t ipow(uint32_t x, uint32_t y){
   uint32_t res = x;
   if(y == 0) return 1;
   if(y == 1) return res;
@@ -77,74 +69,38 @@ static uint32_t ipow(uint32_t x, uint32_t y){
 }
 
 static void hmi_process_key(int8_t encoder, uint8_t key){
-  if(menudepth == 0){//going through the main menu
-    _mainmenu_update(encoder);
-    if(key == KEY_OK){ //go to submemue;
-      menudepth = 1;
-      flag_update_disp = 1;
-      submenu = 0;
-      return;
-    }
+  flag_update_disp = true;
+  if(key == KEY_OK){
+    //toggle between selected mode.
+    b_cursor_selected = !b_cursor_selected;
   }
-  if(key == (KEY_PRESS_L|KEY_OK)){
-    if(menudepth){
-      menudepth --;
-      flag_update_disp = 1;
-      submenu = 0;
+  else if(encoder){
+    if(b_cursor_selected){ //adjust voltage
+      double delta = 1e-6*ipow(10, 6-cursor_pos)*encoder;
+      delta += volt_disp;
+      if(delta < 10.003f && delta>0)
+        volt_disp = delta;
+      if(volt_disp != voltref_get_value()){
+        LOG_I("Set voltage to %fV",volt_disp);
+        volt_real = voltref_set_value(volt_disp); //use the current voltage to set voltage reference.
+        LOG_I("Real voltage is %fV",volt_real);
+        printf("Real voltage is %fV\n",volt_real);
+      }
     }
-    return;
-  }
-  switch (mainmenu){
-    case MAINMENU_0:
-      if(menudepth == 1){ //go through voltage in 1.
-        if(encoder){//adjust submenu position
-          submenu += encoder;
-          if(submenu < 0) submenu = 0;
-          if(submenu > 7) submenu = 7;
-        }
-      }
-      else if(menudepth == 2){//set voltage.
-        if(encoder){//adjusting value
-          float volt = voltref_get_value(); //get current settings.
-          volt = volt + ipow(10, 8-submenu)*encoder;
-        }
-      }
-      
-      break;
-    case 1: //set contrast.
-      if(menudepth == 1){//go through value
-        if(encoder){//adjust submenu position
-          submenu += -encoder;
-          if(submenu < 0) submenu = 0;
-          if(submenu > 2) submenu = 2;
-        }
-        if(key == KEY_OK){
-          flag_update_disp = 1;
-          menudepth = 2;
-        }
-      }
-      else if(menudepth == 2){
-        if(encoder){
-          int8_t contr = displed_getcontr();
-          contr += encoder*ipow(10, submenu);
-          if(contr < 100&&contr>0)
-            displed_setcontr(contr);
-        }
-        if(key == KEY_OK)
-          menudepth = 1;
-      }
-      flag_update_disp = 1;
-      break;
-    case 2:
-      break;
-    default:
-      break;
+    else{ //change cursor position
+      cursor_pos += encoder;
+      if(cursor_pos<0)
+        cursor_pos = 0;
+      if(cursor_pos > 6)
+        cursor_pos = 6;
+    }
   }
 }
 
-void hmi_disp_update(void){
+void hmi_disp_update(float volt){
   flag_update_disp = 1;
-  disp_update();
+  volt_disp = volt;
+  volt_real = volt;
 }
 
 void hmi_poll(void){
@@ -159,7 +115,7 @@ void hmi_poll(void){
     encoder_pre = encoder;
     key_pre = key;
     hmi_process_key(temp, key);
-    printf("Encode delta:%d\n", temp);
-    disp_update();
+    LOG_D("Encode delta:%d\n", temp);
   }
+  disp_update();
 }
