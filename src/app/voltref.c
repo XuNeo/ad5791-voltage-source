@@ -26,6 +26,7 @@ void voltref_init(void){
   ush_init(&ush, line_buff, 128);
   ad5791_init();
   curr_volt = ad5791_set_volt(curr_volt);
+	ad5791_set_code(0xfffff);
 }
 
 //return current voltage settings.

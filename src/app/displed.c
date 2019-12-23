@@ -147,10 +147,9 @@ void displed_addfont(uint8_t ch, uint8_t font){
   uint8_t buff[6];
   buff[0] = 0;  //addr
   buff[1] = CMD_ADD_FONT;
-  buff[2] = 2+1;
+  buff[2] = 2;
   buff[3] = ch;
   buff[4] = font;
-  buff[5] = 0;
   sframe_encode(disp_uart_char, buff, 5);
 }
 
@@ -186,7 +185,7 @@ void displed_init(void){
   displed_addfont('N', LEDSEGA|LEDSEGB|LEDSEGC|LEDSEGE|LEDSEGF);
   displed_addfont('S', LEDSEGA|LEDSEGC|LEDSEGD|LEDSEGF|LEDSEGG);
   displed_addfont('v', LEDSEGC|LEDSEGD|LEDSEGE);
-  displed_addfont('U', LEDSEGA|LEDSEGB|LEDSEGC|LEDSEGD|LEDSEGE);
+  displed_addfont('U', LEDSEGB|LEDSEGC|LEDSEGD|LEDSEGE|LEDSEGF);
 	displed_str("    ");
   LOG_I("STM8-LED initialized.");
   //ulog_i("led", "STM8-LED initialized.");
