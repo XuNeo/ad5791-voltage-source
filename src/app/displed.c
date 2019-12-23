@@ -2,7 +2,7 @@
 #include "string.h"
 #include "ush.h"
 #include "stm32f0xx.h"
-
+#include "stdio.h"
 #define LOG_TAG              "led"
 #define LOG_LVL              LOG_LVL_DBG
 #include <ulog.h>
