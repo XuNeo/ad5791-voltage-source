@@ -1,6 +1,7 @@
 #include "stm32f0xx.h"
 #include "hmi.h"
 #include "timer.h"
+#include "adt7420.h"
 
 #define LOG_TAG              "main"
 #define LOG_LVL              LOG_LVL_DBG
@@ -20,12 +21,14 @@ int main(void)
 #endif
 	timer_init(10);	//10ms period timer
 	voltref_init();
+	adt7420_init();
 	hmi_init();
   LOG_D("Loop starts here.");
 	while(1)
 	{
 		voltref_loop();
 		hmi_poll();
+		adt7420_poll();
 	}
 }
 

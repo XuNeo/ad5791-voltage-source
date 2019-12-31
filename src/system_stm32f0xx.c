@@ -342,6 +342,8 @@ static void SetSysClock(void)
          configuration. User can add here some code to deal with this error */
 		    /* Enable Prefetch Buffer and set Flash Latency */
 		//add by xxl
+		
+		RCC->CR &= ~((uint32_t)RCC_CR_HSEON);
     FLASH->ACR = FLASH_ACR_PRFTBE | FLASH_ACR_LATENCY;
  
     /* HCLK = SYSCLK */

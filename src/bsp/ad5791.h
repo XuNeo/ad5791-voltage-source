@@ -4,5 +4,6 @@
 void ad5791_init(void);
 float ad5791_set_code(uint32_t code);
 float ad5791_set_volt(float volt);
+int32_t ad5791_get_code(void);
 
 #endif

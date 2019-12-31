@@ -15,7 +15,7 @@
 
 #define ULOG_USING_USH //use micro shell: USH
 #define ULOG_USING_FILTER
-#define ULOG_USING_COLOR
+//#define ULOG_USING_COLOR
 #define ULOG_USING_PRINTF //use custom printf module instead of stdio.h
 
 #define ULOG_OUTPUT_LEVEL

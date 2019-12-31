@@ -22,6 +22,11 @@
         "hmi.h": "c",
         "syslog.h": "c",
         "ulog.h": "c",
-        "key.h": "c"
+        "key.h": "c",
+        "string": "c",
+        "adt7420.h": "c"
     },
+    "cSpell.words": [
+        "peridically"
+    ],
 }

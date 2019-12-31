@@ -45,7 +45,7 @@ void timer_init(uint32_t period_ms){
 
 void timer_register(void (*call_back)(void), uint32_t period_ms){
   if(call_back == 0) return;
-  
+
   LOG_I("Register timer: 0x%08x, period:%dms", call_back, period_ms);
   uint32_t tick = period_ms/time_per_tick;
   for(uint32_t i=0; i< list_len; i++){

@@ -74,7 +74,7 @@
  * used to track current dac code.
 */
 static uint32_t dac_code20b = 0;
-static float vref_volt = 10.091745f; /* 10V by default. */
+static float vref_volt = 10.091741325f; /* 10V by default. */
 /**
  * @brief A simple delay function used to meet AD5791 timing.
  * @return none.
@@ -189,6 +189,15 @@ float ad5791_set_code(uint32_t code)
 {
   ad5791_write_data(code&0xfffff);
   return code*vref_volt/0xfffff;
+}
+
+/**
+ * @brief get ad5791 output code directly. This doesn't include calibration correction.
+ * @return none.
+*/
+int32_t ad5791_get_code(void)
+{
+  return dac_code20b;
 }
 
 /**

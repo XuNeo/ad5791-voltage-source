@@ -3,9 +3,10 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\xxl\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                "C:\\Users\\xxl\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.4.2\\**",
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:/Keil_v5/ARM/ARMCC/**",
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/firmware/LCRMeter/3rdparty/FreeRTOS-Kernel/portable/RVDS/ARM_CM3"
             ],
             "defines": [
                 "_DEBUG",

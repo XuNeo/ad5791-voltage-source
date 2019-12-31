@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>--preinclude ..\stm32f0xx_conf.h </MiscControls>
-              <Define>STM32F030,USE_STDPERIPH_DRIVER,M_PI=3.14159265358979f,__CLK_TCK=100</Define>
+              <Define>STM32F030,USE_STDPERIPH_DRIVER,M_PI=3.14159265358979f,__CLK_TCK=100,RT_USING_ULOG</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\stm32f0xxlib\CMSIS\Device\ST\STM32F0xx\Include;..\..\stm32f0xxlib\STM32F0xx_StdPeriph_Driver\inc;..\..\src;..\..\src\app;..\..\src\bsp;..\printf;..\app\ulog-noos</IncludePath>
             </VariousControls>
@@ -576,6 +576,16 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>adt7420.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\adt7420.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\i2c.c</FilePath>
             </File>
           </Files>
         </Group>
